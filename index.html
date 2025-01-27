@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Effect</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #bac0cd, #2a5298);
+      color: #fff;
+      overflow: hidden;
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .typing-container {
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 30px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .typed-text {
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff0199, #0a02fe, #02cdfa, #02fe30);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: aurora 3s linear infinite;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .cursor {
+      margin-left: 5px;
+      font-weight: bold;
+      font-size: 2.5rem;
+      color: #ffeb3b;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      animation: blink 0.6s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .typing-container {
+        font-size: 2rem;
+        padding: 15px 20px;
+      }
+
+      .cursor {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .typing-container {
+        font-size: 1.5rem;
+        padding: 10px 15px;
+      }
+
+      .cursor {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="typing-container">
+    <span class="typed-text"></span>
+    <span class="cursor">|</span>
+  </div>
+
+  <script>
+    const text = "FOLLOW*SNIPPET_WIZARD*"; // The word/phrase to type
+    const typedTextSpan = document.querySelector(".typed-text");
+    const cursorSpan = document.querySelector(".cursor");
+
+    let charIndex = 0;
+    const typingDelay = 100;  // Typing speed
+    const erasingDelay = 50;  // Erasing speed
+    const delayBetweenLoops = 2000; // Delay before restart
+
+    function type() {
+      if (charIndex < text.length) {
+        typedTextSpan.textContent += text.charAt(charIndex);
+        charIndex++;
+        setTimeout(type, typingDelay);
+      } else {
+        setTimeout(erase, delayBetweenLoops);
+      }
+    }
+
+    function erase() {
+      if (charIndex > 0) {
+        typedTextSpan.textContent = text.substring(0, charIndex - 1);
+        charIndex--;
+        setTimeout(erase, erasingDelay);
+      } else {
+        setTimeout(type, typingDelay + 500);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(type, 1000); // Start typing after a slight delay
+    });
+  </script>
+</body>
+</html>
